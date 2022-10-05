@@ -38,12 +38,7 @@ async function auth(req, res, next) {
 }
 
 const create = async (req, res, next) => {
-  console.log(
-    `💩 ~ file: users.controller.js ~ line 31 ~ create ~ req, res, next`,
-    req,
-    res,
-    next
-  );
+
   try {
     res.json(await users.insertUser(req.body));
   } catch (err) {

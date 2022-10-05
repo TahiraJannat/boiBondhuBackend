@@ -9,6 +9,21 @@ const authRouter = require('./src/routes/auth.route');
 const imageRouter = require('./src/routes/image.route');
 const booksRouter = require('./src/routes/books.route');
 
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './UploadFiles/Images');
+  },
+  filename: (req, file, cb) => {
+    console.log(file, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({
+  storage: storage,
+});
+
 const app = express();
 app.use(cors());
 
@@ -66,7 +81,7 @@ app.use(express.static('public'));
 // });
 
 app.use('/api/auth', authRouter);
-// app.use('/api/check', imageRouter);
+app.use('/api/check', imageRouter);
 app.use('/api/books', booksRouter);
 
 const SERVER_PORT = process.env.SERVER_PORT || 3001;
