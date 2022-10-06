@@ -4,55 +4,54 @@ require('dotenv').config(); // ALLOWS ENVIRONMENT VARIABLES TO BE SET ON PROCESS
 const env = process.env;
 
 const imagePreviewURL = `${env.SERVER_NAME}:${env.SERVER_PORT}/images`;
+
 async function get(req, res, next) {
   try {
-    res.json(await books.getUsers(req.query.page));
+    res.json(await books.getAllBooks());
   } catch (err) {
     console.error(`🚀 Error while getting books`, err.message);
     next(err);
   }
 }
 
-async function getOne(req, res, next) {
+async function getSingleBookInfo(req, res, next) {
   try {
-    res.json(await books.getUser(req.params.id));
+    res.json(await books.getSingle(req.params.bookID));
   } catch (err) {
     console.error(`🚀 Error while getting books`, err.message);
     next(err);
   }
 }
 
-async function getPass(req, res, next) {
-  try {
-    res.json(await books.getuserPass(req.params.user));
-  } catch (err) {
-    console.error(`🚀 Error while getting books`, err.message);
-    next(err);
-  }
-}
+// async function getPass(req, res, next) {
+//   try {
+//     res.json(await books.getuserPass(req.params.user));
+//   } catch (err) {
+//     console.error(`🚀 Error while getting books`, err.message);
+//     next(err);
+//   }
+// }
 
-async function auth(req, res, next) {
-  console.log(`💩 ~ file: books.controller.js ~ line 31 ~ auth ~ req`, req);
-  try {
-    res.json(await books.checkLogin(req.params.email, req.params.pass));
-  } catch (err) {
-    console.error(`🚀 Error while getting books`, err.message);
-    next(err);
-  }
-}
+// async function auth(req, res, next) {
+//   console.log(`💩 ~ file: books.controller.js ~ line 31 ~ auth ~ req`, req);
+//   try {
+//     res.json(await books.checkLogin(req.params.email, req.params.pass));
+//   } catch (err) {
+//     console.error(`🚀 Error while getting books`, err.message);
+//     next(err);
+//   }
+// }
 
 const create = async (req, res, next) => {
-  console.log(
-    `🔥 ~ file: books.controller.js ~ line 45 ~ create ~ req`,
-    req?.body
-  );
+  // console.log(`🔥`, req?.file);
+  // console.log(`🔥`, req?.body);
   const getImageAPIUrl = '';
   const booksInfo = {
-    userID: req?.body?.userID,
-    bodyData: {
-      ...req?.body,
-      bookImageURL: `${imagePreviewURL}/${req?.file?.filename}`,
-    },
+    // userID: req?.body?.userID,
+    // bodyData: {
+    ...req?.body,
+    bookImageURL: `${imagePreviewURL}/${req?.file?.filename}`,
+    // },
   };
   try {
     res.json(await books.insertInfo(booksInfo));
@@ -84,10 +83,8 @@ const remove = async (req, res, next) => {
 
 module.exports = {
   get,
-  getOne,
+  getSingleBookInfo,
   create,
   remove,
   update,
-  getPass,
-  auth,
 };

@@ -3,6 +3,11 @@ const authentication = require('../services/auth.service');
 
 // async function signIn(req, res, next) {
 const signIn = async (req, res, next) => {
+  console.log(
+    `🔥 ~ file: auth.controller.js ~ line 9 ~ signIn ~ req.body`,
+    req.body
+  );
+
   try {
     res.json(
       await authentication.checkLogin(req.body.email, req.body.password)
@@ -23,7 +28,7 @@ const signUp = async (req, res, next) => {
     res.json(await authentication.insertUser(req.body));
   } catch (err) {
     console.error(`Error while creating User`);
-    // next(err);
+    next(err);
   }
 };
 

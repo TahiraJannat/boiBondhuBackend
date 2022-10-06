@@ -1,6 +1,6 @@
-const db = require("./db.service");
+const db = require('./db.service');
 
-const tableName = "auth";
+const tableName = 'auth';
 
 async function getUsers() {
   const sqlQuery = `SELECT * FROM ${tableName}`;
@@ -19,19 +19,42 @@ async function getUser(id) {
 }
 
 async function checkLogin(email, pass) {
-  const sqlQuery = `SELECT id, username, email  FROM ${tableName} WHERE email=? && password=?`;
+  const sqlQuery = `SELECT userID, username, email  FROM ${tableName} WHERE email=? && password=?`;
   const data = await db.query(sqlQuery, [email, pass]);
   // return {
   //   data
   // };
   if (data.length > 0) {
-    return { data };
+    console.log(
+      `🔥 ~ file: users.service.js ~ line 28 ~ checkLogin ~ data`,
+      data[0]
+    );
+    //   {
+    //     "data": [
+    //         {
+    //             "id": 1,
+    //             "username": "test",
+    //             "email": "test@gmail.com"
+    //         }
+    //     ]
+    // }
+
+    const userData = data[0];
+    const response = {
+      message: `Authenticated`,
+      status: `200`,
+      userData: {
+        ...userData,
+      },
+    };
+    return { response };
   } else {
-    let noUser = {
-      data: "No User !! OR  Credential Mismatch !! :( ",
+    let response = {
+      message: `No User !! OR  Credential Mismatch !! :( `,
+      status: `404`,
     };
 
-    return noUser;
+    return { response };
   }
 }
 
@@ -53,12 +76,15 @@ async function insertUser(userInfo) {
     ]);
   } catch (error) {
     //
-    message = error?.code === 'ER_DUP_ENTRY' ? `User Exists For mail ${userInfo?.email}` : 'Something Went happened !!!'
+    message =
+      error?.code === 'ER_DUP_ENTRY'
+        ? `User Exists For mail ${userInfo?.email}`
+        : 'Something Went happened !!!';
   }
 
   if (result.affectedRows) {
     console.log(
-      "🚀 ~ file: users.service.js ~ line 32 ~ insertUser ~ result.affectedRows",
+      '🚀 ~ file: users.service.js ~ line 32 ~ insertUser ~ result.affectedRows',
       result
     );
     message = `User Inserted successfully with id = ${result?.insertId}`;
@@ -73,7 +99,7 @@ async function insertUser(userInfo) {
 
 async function updateUser(id, userInfo) {
   console.log(
-    "🚀 ~ file: users.service.js ~ line 47 ~ updateUser ~ id, userInfo",
+    '🚀 ~ file: users.service.js ~ line 47 ~ updateUser ~ id, userInfo',
     id,
     userInfo
   );
@@ -85,10 +111,10 @@ async function updateUser(id, userInfo) {
     id,
   ]);
 
-  let message = "Error in updating user";
+  let message = 'Error in updating user';
 
   if (result.affectedRows) {
-    message = "User updated successfully";
+    message = 'User updated successfully';
   }
 
   return { message };
@@ -99,7 +125,7 @@ const removeUser = async (id) => {
 
   const result = await db.query(sqlQuery, [id]);
 
-  let message = "Error in removing user";
+  let message = 'Error in removing user';
 
   if (result.affectedRows) {
     message = `User Removed successfully with id = ${id} `;

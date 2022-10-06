@@ -1,4 +1,4 @@
-const users = require("../services/users.service");
+const users = require('../services/users.service');
 
 async function get(req, res, next) {
   try {
@@ -28,7 +28,10 @@ async function getPass(req, res, next) {
 }
 
 async function auth(req, res, next) {
-  console.log(`💩 ~ file: users.controller.js ~ line 31 ~ auth ~ req`, req);
+  console.log(
+    `💩 ~ file: users.controller.js ~ line 31 ~ auth ~ req`,
+    req?.params
+  );
   try {
     res.json(await users.checkLogin(req.params.email, req.params.pass));
   } catch (err) {
@@ -38,7 +41,6 @@ async function auth(req, res, next) {
 }
 
 const create = async (req, res, next) => {
-
   try {
     res.json(await users.insertUser(req.body));
   } catch (err) {

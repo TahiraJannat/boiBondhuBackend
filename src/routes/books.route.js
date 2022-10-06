@@ -31,9 +31,8 @@ const router = express.Router();
 // router.post('/', upload.single('image'), imageController.uploadImage);
 
 /* GET Books Info. */
-// router.get("/", booksController.get);
-
-// router.get("/:id", booksController.getOne);
+router.get('/', booksController.get);
+router.get('/:bookID', booksController.getSingleBookInfo);
 // router.get("/:user", booksController.getPass);
 
 /* GET AUTH. */

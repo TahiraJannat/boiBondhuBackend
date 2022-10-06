@@ -40,25 +40,25 @@ app.use(express.static('public'));
 //   res.send('hello world')
 // })
 
-// app.get('/file/:name', function (req, res, next) {
-//   var options = {
-//     root: path.join(__dirname, 'UploadFiles/Images'),
-//     dotfiles: 'deny',
-//     headers: {
-//       'x-timestamp': Date.now(),
-//       'x-sent': true,
-//     },
-//   };
+app.get('/images/:name', function (req, res, next) {
+  var options = {
+    root: path.join(__dirname, 'UploadFiles/Images'),
+    dotfiles: 'deny',
+    headers: {
+      'x-timestamp': Date.now(),
+      'x-sent': true,
+    },
+  };
 
-//   var fileName = req.params.name;
-//   res.sendFile(fileName, options, function (err) {
-//     if (err) {
-//       next(err);
-//     } else {
-//       console.log('Sent:', fileName);
-//     }
-//   });
-// });
+  var fileName = req.params.name;
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
+      next(err);
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
+});
 // app.post('/api/upload', upload.single('image'), (req, res, err) => {
 //   // if (err) throw err;
 
@@ -66,6 +66,7 @@ app.use(express.static('public'));
 // });
 
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 // app.use('/api/check', imageRouter);
 app.use('/api/books', booksRouter);
 
