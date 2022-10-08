@@ -8,6 +8,7 @@ const userRouter = require('./src/routes/users.route');
 const authRouter = require('./src/routes/auth.route');
 const imageRouter = require('./src/routes/image.route');
 const booksRouter = require('./src/routes/books.route');
+const optionsRouter = require('./src/routes/options.route');
 
 const app = express();
 app.use(cors());
@@ -69,6 +70,9 @@ app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 // app.use('/api/check', imageRouter);
 app.use('/api/books', booksRouter);
+
+//Get Options for filtering
+app.use('/api/options', optionsRouter);
 
 const SERVER_PORT = process.env.SERVER_PORT || 3001;
 
